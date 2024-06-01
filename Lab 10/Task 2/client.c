@@ -11,12 +11,37 @@
 #define PORT	 8080 
 #define MAXLINE 1024 
 
+
+void encrypt(char *data) {
+    for (int i = 0; data[i] != '\0'; i++) {
+        if (data[i] >= 'a' && data[i] <= 'z') {
+            data[i] = (data[i] - 'a' + 3) % 26 + 'a';
+        } else if (data[i] >= 'A' && data[i] <= 'Z') {
+            data[i] = (data[i] - 'A' + 2) % 26 + 'A';
+        } else if (data[i] >= '0' && data[i] <= '9') {
+            data[i] = (data[i] - '0' + 1) % 10 + '0';
+        }
+    }
+}
+
 // Driver code 
 int main() { 
 	int sockfd; 
 	char buffer[MAXLINE]; 
-	char *hello = "Hello from client"; 
-	struct sockaddr_in	 servaddr; 
+	struct sockaddr_in servaddr;
+
+	// Opening File
+	FILE *file = fopen("textFile.txt","r");
+	if(file==NULL){
+		perror("File not found ...");
+	}
+
+	// Store text file content in fileData array
+	char fileData[MAXLINE];
+	fread(fileData,sizeof(char),MAXLINE,file);
+	fclose(file);
+
+	encrypt(fileData);
 
 	// Creating socket file descriptor 
 	if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) { 
@@ -34,7 +59,7 @@ int main() {
 	connect (sockfd, (struct sockaddr*) &servaddr, sizeof(servaddr)); 
 	int n, len; 
 	
-	send(sockfd, (const char *)hello, strlen(hello),0); 
+	send(sockfd, fileData, strlen(fileData),0);
 	printf("Hello message sent.\n"); 
 		
 	n = recv(sockfd, (char *)buffer, MAXLINE, 0); 
