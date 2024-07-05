@@ -20,8 +20,9 @@ void swapEvenOddIndices(char *str) {
     }
 }
 
-void communicate_with_server() {
-    int sockfd;
+int main() {
+    
+  int sockfd;
     char buffer[MAXLINE];
     struct sockaddr_in servaddr;
 
@@ -57,10 +58,7 @@ void communicate_with_server() {
     printf("Sent back to server: %s\n", buffer);
 
     close(sockfd);
-}
 
-int main() {
-    communicate_with_server();
     return 0;
 }
 
