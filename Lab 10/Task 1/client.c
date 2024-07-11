@@ -1,4 +1,4 @@
-// Client side implementation of UDP client-server model 
+// Client side implementation of TCP client-server model 
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <unistd.h> 
@@ -17,7 +17,7 @@ int main() {
 	char buffer[MAXLINE]; 
 	char *hello = "Hello from client"; 
 	struct sockaddr_in servaddr;
-
+	
 	// Creating socket file descriptor 
 	if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) { 
 		perror("socket creation failed"); 

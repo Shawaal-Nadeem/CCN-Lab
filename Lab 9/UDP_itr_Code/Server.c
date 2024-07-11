@@ -40,7 +40,7 @@ int main() {
 		perror("bind failed"); 
 		exit(EXIT_FAILURE); 
 	} 
-	
+	 
 	int len=sizeof(cliaddr); 
 	int n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, ( struct sockaddr *) &cliaddr, &len); 
 	buffer[n] = '\0'; 

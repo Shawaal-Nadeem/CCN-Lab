@@ -7,7 +7,7 @@
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
 #include <netinet/in.h> 
- 
+
 #define PORT	 8080 
 #define MAXLINE 1024 
 
@@ -15,11 +15,11 @@
 int main() { 
 	int sockfd; 
 	char buffer[MAXLINE]; 
-	char *Client_message = "Hello from Afii"; 
+	char *hello = "Hello from client"; 
 	struct sockaddr_in	 servaddr; 
 
 	// Creating socket file descriptor 
-	if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) { 
+	if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) { 
 		perror("socket creation failed"); 
 		exit(EXIT_FAILURE); 
 	} 
@@ -31,15 +31,15 @@ int main() {
 	servaddr.sin_port = htons(PORT); 
 	servaddr.sin_addr.s_addr = INADDR_ANY; 
 	
-	int n, len=sizeof(servaddr); 
+	connect (sockfd, (struct sockaddr*) &servaddr, sizeof(servaddr)); 
+	int n, len; 
 	
-	sendto(sockfd, (const char *)Client_message, strlen(Client_message), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr)); 
+	send(sockfd, (const char *)hello, strlen(hello),0); 
 	printf("Hello message sent.\n"); 
 		
-	n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len); 
+	n = recv(sockfd, (char *)buffer, MAXLINE, 0); 
 	buffer[n] = '\0'; 
-	
-	//write(1,buffer,strlen(buffer)); 
+	printf("Server : %s\n", buffer); 
 	
 	
 	close(sockfd); 

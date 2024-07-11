@@ -1,4 +1,4 @@
-// Server side implementation of TCP client-server model 
+// Server side implementation of UDP client-server model 
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <unistd.h> 
@@ -7,8 +7,8 @@
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
 #include <netinet/in.h> 
- 
-#define PORT 8080 
+
+#define PORT	 8080 
 #define MAXLINE 1024 
 
 // Driver code 
@@ -43,9 +43,10 @@ int main() {
 	int newfd;
 	while(1)
 	{
-		int len= sizeof(cliaddr); 
+		int len= sizeof(cliaddr), n; 
 		newfd= accept(sockfd, (struct sockaddr*) &cliaddr, &len);
-		int n = recv(newfd, (char *)buffer, MAXLINE,0); 
+		
+		n = recv(newfd, (char *)buffer, MAXLINE,0); 
 		buffer[n] = '\0'; 
 		printf("Client : %s\n", buffer); 
 		send(newfd, (const char *)hello, strlen(hello),0); 
