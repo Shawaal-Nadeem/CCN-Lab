@@ -25,7 +25,7 @@ int main() {
 	} 
 
 	memset(&servaddr, 0, sizeof(servaddr)); 
-	
+	 
 	// Filling server information 
 	servaddr.sin_family = AF_INET; 
 	servaddr.sin_port = htons(PORT); 
